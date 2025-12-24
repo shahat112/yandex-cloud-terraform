@@ -1,35 +1,36 @@
-
-Terraform files
+# Terraform files
 .terraform/
 *.tfstate
 *.tfstate.backup
 *.tfplan
 terraform.tfvars
 
-Keys and secrets
+# CI temporary files
+ci_override.tf
+
+# Keys and secrets
 key.json
 *.pem
 *.key
 *.crt
 *.pub
 
-Logs and temporary files
+# Logs and temporary files
 *.log
 *.tmp
 *.temp
 
-IDE files
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
 
-OS files
+# OS files
 .DS_Store
 Thumbs.db
 
-Backups
+# Backups
 backup/
 old/
 *.bak
-ci_override.tf
