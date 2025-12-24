@@ -1,0 +1,34 @@
+
+Terraform files
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+terraform.tfvars
+
+Keys and secrets
+key.json
+*.pem
+*.key
+*.crt
+*.pub
+
+Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+OS files
+.DS_Store
+Thumbs.db
+
+Backups
+backup/
+old/
+*.bak

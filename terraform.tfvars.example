@@ -1,0 +1,27 @@
+# Копировать в terraform.tfvars и заполнить реальными значениями
+cloud_id  = "your_cloud_id"
+folder_id = "your_folder_id"
+zone      = "ru-central1-a"
+
+network_name = "your-network"
+subnet_name  = "your-subnet"
+
+cluster_name     = "your-k8s-cluster"
+k8s_pod_cidr     = "172.20.0.0/16"
+k8s_service_cidr = "172.21.0.0/16"
+node_group_name  = "your-nodes"
+node_count       = 2
+
+service_account_id = "your-service-account"
+registry_name      = "your-registry"
+
+postgres_name = "your-postgres"
+
+clickhouse_name     = "your-clickhouse"
+clickhouse_user     = "admin"
+clickhouse_password = "your_password"
+clickhouse_database = "analytics"
+
+redis_name     = "your-redis"
+redis_password = "your_password"
+redis_version  = "7.2-valkey"
