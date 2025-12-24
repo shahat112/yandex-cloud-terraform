@@ -5,36 +5,47 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
-  terraform:
-    name: Terraform Format & Syntax Check
+  format-check:
+    name: Terraform Format Check
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.5.0
-
-      - name: Terraform Format Check
-        id: fmt
-        run: terraform fmt -check -recursive
-
-      - name: Create Summary Report
-        if: always()
+          
+      - name: Check Terraform Formatting
         run: |
-          echo "## ✅ Terraform CI Check Results" >> $GITHUB_STEP_SUMMARY
-          echo "### All .tf files are properly formatted." >> $GITHUB_STEP_SUMMARY
+          echo "🔍 Checking Terraform file formatting..."
+          if terraform fmt -check -recursive; then
+            echo "✅ SUCCESS: All Terraform files are properly formatted!"
+            echo "This means your code follows Terraform style conventions."
+          else
+            echo "❌ FAILED: Formatting issues detected"
+            echo ""
+            echo "To fix automatically, run locally:"
+            echo "  terraform fmt -recursive"
+            echo ""
+            echo "Files needing attention:"
+            terraform fmt -check -recursive 2>&1 | grep -v "check" || true
+            exit 1
+          fi
+          
+      - name: Success Summary
+        if: success()
+        run: |
+          echo "## ✅ Terraform Format Check Passed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Checks performed:**" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Code formatting check (terraform fmt)" >> $GITHUB_STEP_SUMMARY
+          echo "All files are properly formatted according to Terraform style guidelines." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Note for local development:**" >> $GITHUB_STEP_SUMMARY
-          echo "1. Add `terraform.tfvars` with your values" >> $GITHUB_STEP_SUMMARY
+          echo "**Next steps for local development:**" >> $GITHUB_STEP_SUMMARY
+          echo "1. Add `terraform.tfvars` with your configuration" >> $GITHUB_STEP_SUMMARY
           echo "2. Add `key.json` service account key" >> $GITHUB_STEP_SUMMARY
-          echo "3. Run `terraform init` and `terraform validate` locally" >> $GITHUB_STEP_SUMMARY
+          echo "3. Run `terraform init`" >> $GITHUB_STEP_SUMMARY
+          echo "4. Run `terraform validate` (requires key.json)" >> $GITHUB_STEP_SUMMARY

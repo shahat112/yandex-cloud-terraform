@@ -2,21 +2,21 @@ terraform {
   required_version = ">= 1.0"
   required_providers {
     yandex = {
-      source  = "yandex-cloud/yandex"     
+      source  = "yandex-cloud/yandex"
       version = ">= 0.100.0"
     }
   }
 }
 
 provider "yandex" {
-  service_account_key_file = "key.json"   
-  cloud_id                 = var.cloud_id 
+  service_account_key_file = "key.json"
+  cloud_id                 = var.cloud_id
   folder_id                = var.folder_id
-  zone                     = var.zone     
+  zone                     = var.zone
 }
 
 # Данные о существующей сети
-data "yandex_vpc_network" "network" {     
+data "yandex_vpc_network" "network" {
   name = var.network_name
 }
 
@@ -27,8 +27,8 @@ data "yandex_vpc_subnet" "subnet" {
 
 # Существующий кластер Kubernetes
 resource "yandex_kubernetes_cluster" "cluster" {
-  name               = var.cluster_name
-  network_id         = data.yandex_vpc_network.network.id
+  name       = var.cluster_name
+  network_id = data.yandex_vpc_network.network.id
 
   # ПРАВИЛЬНЫЕ имена параметров для CIDR
   cluster_ipv4_range = var.k8s_pod_cidr
@@ -143,7 +143,7 @@ resource "yandex_mdb_clickhouse_cluster" "clickhouse" {
 # ОТДЕЛЬНЫЙ ресурс для базы данных ClickHouse
 resource "yandex_mdb_clickhouse_database" "analytics" {
   cluster_id = yandex_mdb_clickhouse_cluster.clickhouse.id
-  name       = var.clickhouse_database  # "analytics"
+  name       = var.clickhouse_database # "analytics"
 }
 
 # Отдельный ресурс для пользователя ClickHouse
