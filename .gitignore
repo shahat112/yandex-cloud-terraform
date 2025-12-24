@@ -32,3 +32,4 @@ Backups
 backup/
 old/
 *.bak
+ci_override.tf
